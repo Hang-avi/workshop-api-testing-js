@@ -4,7 +4,7 @@ const chai = require('chai');
 
 const { expect } = chai;
 let itemId;
-const item = {
+let item = {
   name: 'Miel',
   sellIn: 20,
   quality: 35,
@@ -35,9 +35,26 @@ describe('gildedrose Api Tests', () => {
   });
 });
 
+it('Consume PUT Service', async () => {
+  const newItem = {
+    name: 'Miel',
+    sellIn: 10,
+    quality: 35,
+    type: 'AGED'
+  };
+
+  const response = await agent.put(`http://localhost:8080/api/items/${itemId.toString()}`).send(newItem);
+
+  expect(response.status).to.equal(statusCode.CREATED);
+  expect(response.body).to.have.property('name').to.equal(newItem.name);
+  expect(response.body).to.have.property('sellIn').to.equal(newItem.sellIn);
+  expect(response.body).to.have.property('quality').to.equal(newItem.quality);
+  item = newItem;
+});
+
 describe('gildedrose Api Tests', () => {
   it('Consume DELETE Service', async () => {
-    const response = await agent.get(`http://localhost:8080/api/items/${itemId.toString()}`);
+    const response = await agent.delete(`http://localhost:8080/api/items/${itemId.toString()}`);
 
     expect(response.status).to.equal(statusCode.OK);
     expect(response.body).to.have.property('name').to.equal(item.name);
