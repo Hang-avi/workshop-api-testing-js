@@ -37,7 +37,7 @@ describe('gildedrose Api Tests', () => {
 
 describe('gildedrose Api Tests', () => {
   it('Consume DELETE Service', async () => {
-    const response = await agent.get(`http://localhost:8080/api/items/${itemId.toString()}`);
+    const response = await agent.delete(`http://localhost:8080/api/items/${itemId.toString()}`);
 
     expect(response.status).to.equal(statusCode.OK);
     expect(response.body).to.have.property('name').to.equal(item.name);
